@@ -31,8 +31,25 @@ flowchart LR
     com_1 <-->|"Communication channel"| com_2
 ```
 
+## What are my wanted functionnalities
+- Light configuration (color, power, sequence)
+- Teddies quality (so sweet to cuddle)
+- Security in communications
+
 ## How I implement it
-I will create different configurations, and choose one of them.
+I will create different configurations, and choose one of them. The important thing to keep in mind is the technical order of the differents units. In my mind; it looks like :
+- Communication unit
+- HMI unit
+- Config unit
+I've choose this one because configuration depends on communication (for example to configure channel parameters) and hmi (for example to configure lights colors).
+
+### Communication unit
+- By WIFI
+- By Lora networks
+- By magical things done by an hybrid of Gandalf, Harry Potter and Obi-Wan
+
+### HMI unit
+- Hmmm, we will answer this one when other ones are done
 
 ### Config unit
 - By USB formatted filesystem 

@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "author": "Benny Meisels",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-esp32-devkit-v1", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-led", "id": "led-red", "top": 0, "left": 120, "attrs": { "color": "red" } },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn-red",
+      "top": 125.33,
+      "left": -194,
+      "attrs": { "color": "green", "bounce": "0" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": 47.3,
+      "left": -177.83,
+      "attrs": { "color": "red" }
+    }
+  ],
+  "connections": [
+    [ "esp:TX0", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX0", "$serialMonitor:TX", "", [] ],
+    [ "esp:GND.1", "led-red:C", "black", [] ],
+    [ "esp:D2", "led-red:A", "blue", [] ],
+    [ "btn-red:2.r", "esp:GND.2", "black", [ "v0" ] ],
+    [ "btn-red:1.r", "esp:D13", "yellow", [ "h0" ] ],
+    [ "btn1:2.r", "esp:VIN", "black", [ "h61", "v75.2" ] ],
+    [ "btn1:1.r", "esp:D34", "gold", [ "v0" ] ]
+  ]
+}
