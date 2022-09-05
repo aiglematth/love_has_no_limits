@@ -1,26 +1,34 @@
 //
-// This file define all errors
+// This file define all teddy errors
 //
 
 #ifndef TEDDY_ERRORS
 #define TEDDY_ERRORS
 
 //
-// Errors define
+// Teddy errors define
 //
 #define TEDDY_OK 0
-#define TEDDY_FREERTOS_QUEUE_CREATE 1
+
+//
+// Fifo errors define
+//
+#define FIFO_OK 0
+#define FIFO_FULL 1
+#define FIFO_EMPTY 2
 
 //
 // Typedefs
 // 
 typedef uint64_t teddy_err_t;
+typedef uint64_t fifo_err_t;
 
 //
 // Variables
 //
-static esp_err_t esp_errno = ESP_OK;
+static esp_err_t esp_errno     = ESP_OK;
 static teddy_err_t teddy_errno = TEDDY_OK;
+static fifo_err_t fifo_errno   = FIFO_OK;
 
 //
 // Macros
@@ -31,5 +39,7 @@ static teddy_err_t teddy_errno = TEDDY_OK;
 
 #define TEDDY_ERRNO_RESET() teddy_errno = TEDDY_OK
 #define TEDDY_RET_IF_ERR(ret_val) if((teddy_errno = (ret_val)) != TEDDY_OK) { return; }
+
+#define FIFO_ERRNO_RESET() fifo_errno = FIFO_OK
 
 #endif 

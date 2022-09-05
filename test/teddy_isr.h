@@ -1,15 +1,15 @@
 //
-// This file provide all ihm functions and configurations
+// This file provide all isr functions and configurations
 //
 
-#ifndef TEDDY_IHM
-#define TEDDY_IHM
+#ifndef TEDDY_ISR
+#define TEDDY_ISR
 
 //
 // Includes 
 //
 #include "driver/gpio.h"
-#include "freertos/queue.h"
+#include "fifo.h"
 
 //
 // Defines
@@ -32,7 +32,11 @@ static const gpio_config_t teddy_gpio_disabling_config = {
 //
 // Variables
 //
-static QueueHandle_t teddy_gpio_queue = NULL;
+static Fifo teddy_gpio_queue = {
+  .down         = NULL,
+  .top          = NULL,
+  .leaving_size = TEDDY_GPIO_QUEUE_LEN
+};
 
 //
 // Functions
@@ -73,13 +77,13 @@ void teddy_gpio_init(void);
   // esp_errno:
   //  - inhert all **teddy_gpio_disable_all**, **teddy_gpio_config_buttons** errors
   //
-  // teddy_errno:
-  //  - TEDDY_FREERTOS_QUEUE_CREATE: Queue cannot be created
-  //
 
 static void IRAM_ATTR teddy_isr_handler(void *args);
   //
   // This function is the isr handler in charge of feeding the task queue
+  //
+  // fifo_errno:
+  //  - inhert all **fifo_push** errors
   //
   // Parameters:
   //  - args<void*> : Arguments passed to this handler (in our case, the pin number)

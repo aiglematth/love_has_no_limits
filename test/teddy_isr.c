@@ -1,11 +1,9 @@
 //
 // Includes
 //
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-#include "freertos/queue.h"
 #include "driver/gpio.h"
-#include "teddy_ihm.h"
+#include "fifo.h"
+#include "teddy_isr.h"
 #include "teddy_errors.h"
 
 //
@@ -30,17 +28,10 @@ void teddy_gpio_config_buttons(void) {
 }
 
 void teddy_gpio_init(void) {
-  teddy_gpio_queue = xQueueCreate(TEDDY_GPIO_QUEUE_LEN, sizeof(gpio_num_t));
-  if(teddy_gpio_queue == NULL) {
-    teddy_errno = TEDDY_FREERTOS_QUEUE_CREATE;
-    return;
-  }
-
   ESP_RET_IF_ERRNO_ERR(teddy_gpio_disable_all())
   ESP_RET_IF_ERRNO_ERR(teddy_gpio_config_buttons())
 }
 
 static void IRAM_ATTR teddy_isr_handler(void *args) {
-  gpio_num_t pin = (gpio_num_t)args;
-  xQueueSendFromISR(teddy_gpio_queue, &pin, NULL);
+  fifo_push(teddy_gpio_queue, (gpio_num_t)args);
 }
